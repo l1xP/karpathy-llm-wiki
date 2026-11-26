@@ -74,7 +74,7 @@ awesome-claude-code currently lists 5 statuslines: CCometixLine, ccstatusline, c
 
 ### Core Pain Point: Quota Opacity
 
-1. **Sudden limit hit with no warning** - $200/month Max users hit limit in 10-15 minutes, only see "usage limit reached" (The Register, 2026-01-05)
+1. **Sudden limit hit, no advance notice** - $200/month Max users hit limit in 10-15 minutes, only see "usage limit reached" (The Register, 2026-01-05)
 2. **Quota reset time invisible** - 3 independent issues on same day 2026-03-18 requesting this (#35747, #35672, #35827)
 3. **5h + 7d dual window cognitive load** - Users confused about which limit they hit
 

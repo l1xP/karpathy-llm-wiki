@@ -1,10 +1,15 @@
-import subprocess
+import contextlib
+import io
+import os
 import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 SCRIPT = Path(__file__).resolve().parent.parent / "scripts" / "check_evidence.py"
+sys.path.insert(0, str(SCRIPT.parent))
+
+import check_evidence as CHECKER  # noqa: E402
 
 RAW_CONTENT = """# Ghostty Update
 
@@ -196,13 +201,28 @@ def make_wiki(root: Path, log: str = ""):
     (root / "wiki" / "log.md").write_text(log or "# Wiki Log\n")
 
 
-def run_checker(root: Path, *args: str, cwd: str | None = None) -> subprocess.CompletedProcess:
-    return subprocess.run(
-        [sys.executable, str(SCRIPT), str(root), *args],
-        capture_output=True,
-        text=True,
-        cwd=cwd,
-    )
+class CheckerResult:
+    def __init__(self, returncode: int, stdout: str, stderr: str):
+        self.returncode = returncode
+        self.stdout = stdout
+        self.stderr = stderr
+
+
+def run_checker(root: Path, *args: str, cwd: str | None = None) -> CheckerResult:
+    out, err = io.StringIO(), io.StringIO()
+    old_cwd = os.getcwd()
+    code = 0
+    try:
+        if cwd is not None:
+            os.chdir(cwd)
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            try:
+                code = CHECKER.main([str(SCRIPT), str(root), *args])
+            except SystemExit as exc:
+                code = exc.code if isinstance(exc.code, int) else 1
+    finally:
+        os.chdir(old_cwd)
+    return CheckerResult(code, out.getvalue(), err.getvalue())
 
 
 class WikiTestCase(unittest.TestCase):
