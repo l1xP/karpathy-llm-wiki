@@ -27,7 +27,7 @@ Around Claude Code's opaque quota problem, the community has spawned over a doze
 
 ### Opaque Quota (Root Problem)
 
-1. **Sudden limit hit without warning**: $200/month Max users hit limits in 10-15 minutes, only see "usage limit reached"
+1. **Sudden limit hit, no advance notice**: $200/month Max users hit limits in 10-15 minutes, only see "usage limit reached"
 2. **Invisible quota reset time**: On 2026-03-18, 3 independent issues requested this feature on the same day
 3. **5h + 7d dual window cognitive burden**: Users can't distinguish which limit they're under
 
